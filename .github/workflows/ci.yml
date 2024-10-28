@@ -27,6 +27,34 @@ jobs:
         run: docker build -t test-framework .
 
       - name: Run tests in Docker
-        run: docker run test-framework test -Denv=${{ env.TEST_ENV }}
+        run: docker run --name test-container test-framework test -Denv=${{ env.TEST_ENV }} -Dallure.results.directory=/allure-results
         env:
           TEST_ENV: staging
+
+      - name: Copy Allure results from Docker container
+        run: docker cp test-container:/allure-results ./allure-results
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+        node-version: '18'
+
+      - name: Generate Allure report
+        run: |
+          npm install -g allure-commandline --save-dev
+          allure generate ./allure-results --clean -o ./allure-report
+
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: ./allure-report
+
+      - name: Deploy Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+
+      - name: Cleanup Docker container
+        run: docker rm test-container

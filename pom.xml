@@ -41,6 +41,18 @@
             <version>5.9.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenide</artifactId>
+            <version>2.29.0</version>
+        </dependency>
+
+        <!-- Allure JUnit 5 Integration -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>2.29.0</version>
+        </dependency>
 
     </dependencies>
 
@@ -55,8 +67,21 @@
                 <configuration>
                     <!-- Це налаштування вирішує проблеми з модульним шляхом в Java 9+ -->
                     <useModulePath>false</useModulePath>
+                    <properties>
+                        <configurationParameters>junit.jupiter.extensions.autodetection.enabled=true</configurationParameters>
+                    </properties>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.14.0</version>
+                <configuration>
+                    <reportVersion>2.14.0</reportVersion>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

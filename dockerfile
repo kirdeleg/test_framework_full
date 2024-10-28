@@ -5,8 +5,10 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
+# Створюємо директорію для результатів Allure
+RUN mkdir /allure-results
+
 # Виконуємо лише компіляцію проекту
 RUN mvn clean compile
 
-# Встановлюємо ENTRYPOINT, який дозволяє передавати аргументи до mvn
 ENTRYPOINT ["mvn"]
