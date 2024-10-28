@@ -5,6 +5,8 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
+# Виконуємо лише компіляцію проекту
 RUN mvn clean compile
 
-ENTRYPOINT ["mvn", "test"]
+# Встановлюємо ENTRYPOINT, який дозволяє передавати аргументи до mvn
+ENTRYPOINT ["mvn"]

@@ -27,6 +27,6 @@ jobs:
         run: docker build -t test-framework .
 
       - name: Run tests in Docker
-        run: docker run test-framework /bin/sh -c "mvn test -Denv=${{ env.TEST_ENV }}"
+        run: docker run test-framework test -Denv=${{ env.TEST_ENV }}
         env:
           TEST_ENV: staging
